@@ -25,7 +25,7 @@ abstract class BaseService extends DoctrineOrm
         $entity->fromArray($this->prepareAttributes($entity, $values));
         $entity->setCreated(date("Y-m-d H:i:s"));
 
-        return parent::getEntityManager()
+        return $this->entityManager
             ->persist($entity);
     }
 
@@ -48,7 +48,7 @@ abstract class BaseService extends DoctrineOrm
 
         if (!self::exist($entity)) {
             $entity->setCreated(date("Y-m-d H:i:s"));
-            $entity = parent::getEntityManager()
+            $entity = $this->entityManager
                 ->persist($entity);
         }
 
@@ -62,7 +62,7 @@ abstract class BaseService extends DoctrineOrm
      */
     public function exist(BaseEntity $entity)
     {
-        return parent::getEntityManager()
+        return $this->entityManager
             ->getRepository($entity::getClassName())
             ->find($entity) ? true : false;
     }
@@ -74,7 +74,7 @@ abstract class BaseService extends DoctrineOrm
      */
     public function delete(BaseEntity $entity)
     {
-        return parent::getEntityManager()
+        return $this->entityManager
             ->remove($entity);
     }
 
@@ -98,7 +98,7 @@ abstract class BaseService extends DoctrineOrm
     public function update(BaseEntity $entity)
     {
         $entity->setUpdated(date("Y-m-d H:i:s"));
-        parent::getEntityManager()->merge($entity);
+        $this->entityManager->merge($entity);
     }
 
     /**
@@ -106,7 +106,7 @@ abstract class BaseService extends DoctrineOrm
      */
     public function flush()
     {
-        parent::getEntityManager()->flush();
+        $this->entityManager->flush();
     }
 
     /**
@@ -118,18 +118,18 @@ abstract class BaseService extends DoctrineOrm
     public function prepareAttributes(BaseEntity $entity, array $attributes)
     {
         foreach ($attributes as $fieldName => &$fieldValue) {
-            if (!parent::getEntityManager()->getClassMetadata($entity::getClassName())->hasAssociation($fieldName)) {
+            if (!$this->entityManager->getClassMetadata($entity::getClassName())->hasAssociation($fieldName)) {
                 continue;
             }
 
-            $association = parent::getEntityManager()->getClassMetadata($entity::getClassName())
+            $association = $this->entityManager->getClassMetadata($entity::getClassName())
                 ->getAssociationMapping($fieldName);
 
             if (is_null($fieldValue)) {
                 continue;
             }
 
-            $fieldValue = parent::getEntityManager()->getReference($association['targetEntity'], $fieldValue);
+            $fieldValue = $this->entityManager->getReference($association['targetEntity'], $fieldValue);
 
             unset($fieldValue);
         }
