@@ -1,8 +1,9 @@
 <?php
-namespace FatFree\Service;
+namespace FatFree\Service\DoctrineOrm;
 
 use FatFree\Dao\DoctrineOrm;
-use FatFree\Entity\BaseEntity;
+use FatFree\Entity\DoctrineOrm\BaseEntity;
+use FatFree\Service\ServiceException;
 
 abstract class BaseService extends DoctrineOrm
 {

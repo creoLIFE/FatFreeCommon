@@ -1,10 +1,13 @@
 <?php
-require_once ('../vendor/autoload.php');
-require_once ('../FatFree/loader.php');
+require_once('../vendor/autoload.php');
+require_once('../FatFree/loader.php');
+require_once('./Service/OrmService.php');
 
 use FatFree\Dao\Config\OrmConfig;
 use FatFree\Dao\Config\Connection\MysqlConnection;
 use FatFree\Dao\DoctrineOrm;
+use Doctrine\ORM\EntityManager;
+use Test\Service\OrmService;
 
 $mysqlConnection = new MysqlConnection();
 $vars = [
@@ -14,19 +17,22 @@ $vars = [
 ];
 $mysqlConnection->fromArray($vars);
 
-print_r($mysqlConnection);
-die();
-
 $ormConfig = new OrmConfig();
 $ormConfig->setEntityPath('./Entity/');
 $ormConfig->setConnection($mysqlConnection);
 
 $dao = new DoctrineOrm($ormConfig);
+if ($dao instanceof DoctrineOrm) {
+    var_dump('DAO instance');
+} else {
+    var_dump('NOT DAO instance');
+}
 
-if( $dao instanceof DoctrineOrm ){
-    var_dump(true);
+$testService = new OrmService($ormConfig);
+if ($testService->entityManager instanceof EntityManager) {
+    var_dump('EntityManager instance');
+} else {
+    var_dump('NOT EntityManager instance');
 }
-else{
-    var_dump(false);
-}
+
 
