@@ -14,6 +14,9 @@ $vars = [
 ];
 $mysqlConnection->fromArray($vars);
 
+print_r($mysqlConnection);
+die();
+
 $ormConfig = new OrmConfig();
 $ormConfig->setEntityPath('./Entity/');
 $ormConfig->setConnection($mysqlConnection);

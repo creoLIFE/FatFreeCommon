@@ -51,11 +51,10 @@ class MysqlConnection
      */
     public function fromArray(array $params)
     {
-        foreach (get_object_vars($this) as $var) {
-            if (array_key_exists($var, $params)) {
-                $this->$var = $params[$var];
+        foreach (get_object_vars($this) as $key => $var) {
+            if (array_key_exists($key, $params)) {
+                $this->$key = $params[$key];
             }
         }
     }
-
 }
