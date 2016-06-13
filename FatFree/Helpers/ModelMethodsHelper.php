@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: miroslawratman
- * Date: 13/02/15
- * Time: 21:06
- */
-
 namespace FatFree\Helpers;
 
 class ModelMethodsHelper implements \JsonSerializable
@@ -68,7 +61,7 @@ class ModelMethodsHelper implements \JsonSerializable
      * Method return model name
      * @return string
      */
-    public function getModelName()
+    public function getClassName()
     {
         return (string)get_class($this);
     }

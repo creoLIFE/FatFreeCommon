@@ -12,7 +12,7 @@ abstract class BaseService extends DoctrineOrm
      * @param BaseEntity $entity
      * @param array $values
      * @return BaseEntity|void
-     * @throws \Main\Library\Mysql\Service\ServiceException
+     * @throws ServiceException
      */
     public function insert(BaseEntity $entity, array $values)
     {
@@ -34,7 +34,7 @@ abstract class BaseService extends DoctrineOrm
      * @param BaseEntity $entity
      * @param array $values
      * @return BaseEntity|void
-     * @throws \Main\Library\Mysql\Service\ServiceException
+     * @throws ServiceException
      */
     public function insertIfNotExist(BaseEntity $entity, array $values)
     {
@@ -63,7 +63,7 @@ abstract class BaseService extends DoctrineOrm
     public function exist(BaseEntity $entity)
     {
         return $this->entityManager
-            ->getRepository($entity::class)
+            ->getRepository($entity::getClassName())
             ->find($entity) ? true : false;
     }
 
@@ -118,11 +118,11 @@ abstract class BaseService extends DoctrineOrm
     public function prepareAttributes(BaseEntity $entity, array $attributes)
     {
         foreach ($attributes as $fieldName => &$fieldValue) {
-            if (!$this->entityManager->getClassMetadata($entity::class)->hasAssociation($fieldName)) {
+            if (!$this->entityManager->getClassMetadata($entity::getClassName())->hasAssociation($fieldName)) {
                 continue;
             }
 
-            $association = $this->entityManager->getClassMetadata($entity::class)
+            $association = $this->entityManager->getClassMetadata($entity::getClassName())
                 ->getAssociationMapping($fieldName);
 
             if (is_null($fieldValue)) {
@@ -136,5 +136,4 @@ abstract class BaseService extends DoctrineOrm
 
         return $attributes;
     }
-
 }
