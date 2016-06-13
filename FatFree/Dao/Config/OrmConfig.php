@@ -17,6 +17,11 @@ class OrmConfig
     private $entityPath = [];
 
     /**
+     * @var mixed
+     */
+    private $cache;
+
+    /**
      * @return Mysql
      */
     public function getConnection()
@@ -27,13 +32,13 @@ class OrmConfig
     /**
      * @param Mysql $connection
      */
-    public function setConnection(MysqlConnection $connection)
+    public function setConnection($connection)
     {
         $this->connection = $connection;
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getEntityPath()
     {
@@ -41,10 +46,26 @@ class OrmConfig
     }
 
     /**
-     * @param string $entityPath
+     * @param array $entityPath
      */
     public function setEntityPath($entityPath)
     {
         $this->entityPath = $entityPath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * @param array $cache
+     */
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
     }
 }

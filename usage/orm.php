@@ -8,6 +8,7 @@ use FatFree\Dao\Config\Connection\MysqlConnection;
 use FatFree\Dao\DoctrineOrm;
 use Doctrine\ORM\EntityManager;
 use Test\Service\OrmService;
+use Doctrine\Common\Cache\MemcacheCache;
 
 $mysqlConnection = new MysqlConnection();
 $vars = [
@@ -19,6 +20,7 @@ $mysqlConnection->fromArray($vars);
 
 $ormConfig = new OrmConfig();
 $ormConfig->setEntityPath('./Entity/');
+$ormConfig->setCache(new MemcacheCache);
 $ormConfig->setConnection($mysqlConnection);
 
 $dao = new DoctrineOrm($ormConfig);
