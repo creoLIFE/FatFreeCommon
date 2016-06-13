@@ -41,7 +41,21 @@ class MysqlConnection
     /**
      * Convert object to array
      */
-    public function toArray(){
+    public function toArray()
+    {
         return (array)$this;
     }
+
+    /**
+     * Convert object to array
+     */
+    public function fromArray(array $params)
+    {
+        foreach (get_object_vars($this) as $var) {
+            if (array_key_exists($var, $params)) {
+                $this->$var = $params[$var];
+            }
+        }
+    }
+
 }

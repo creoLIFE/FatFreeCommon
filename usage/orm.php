@@ -7,9 +7,12 @@ use FatFree\Dao\Config\Connection\MysqlConnection;
 use FatFree\Dao\DoctrineOrm;
 
 $mysqlConnection = new MysqlConnection();
-$mysqlConnection->dbname = 'tdn';
-$mysqlConnection->user = 'root';
-$mysqlConnection->password = 'root';
+$vars = [
+    'dbname' => 'tdn',
+    'user' => 'root',
+    'password' => 'root'
+];
+$mysqlConnection->fromArray($vars);
 
 $ormConfig = new OrmConfig();
 $ormConfig->setEntityPath('./Entity/');
