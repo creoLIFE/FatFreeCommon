@@ -63,7 +63,7 @@ abstract class BaseService extends DoctrineOrm
     public function exist(BaseEntity $entity)
     {
         return $this->entityManager
-            ->getRepository($entity::getClassName())
+            ->getRepository($entity->getClassName())
             ->find($entity) ? true : false;
     }
 
@@ -118,11 +118,11 @@ abstract class BaseService extends DoctrineOrm
     public function prepareAttributes(BaseEntity $entity, array $attributes)
     {
         foreach ($attributes as $fieldName => &$fieldValue) {
-            if (!$this->entityManager->getClassMetadata($entity::getClassName())->hasAssociation($fieldName)) {
+            if (!$this->entityManager->getClassMetadata($entity->getClassName())->hasAssociation($fieldName)) {
                 continue;
             }
 
-            $association = $this->entityManager->getClassMetadata($entity::getClassName())
+            $association = $this->entityManager->getClassMetadata($entity->getClassName())
                 ->getAssociationMapping($fieldName);
 
             if (is_null($fieldValue)) {
