@@ -25,8 +25,10 @@ abstract class BaseService extends DoctrineOrm
         $entity->fromArray($this->prepareAttributes($entity, $values));
         $entity->setCreated(date("Y-m-d H:i:s"));
 
-        return $this->entityManager
+        $this->entityManager
             ->persist($entity);
+
+        return $entity;
     }
 
     /**
@@ -99,6 +101,8 @@ abstract class BaseService extends DoctrineOrm
     {
         $entity->setUpdated(date("Y-m-d H:i:s"));
         $this->entityManager->merge($entity);
+
+        return $entity;
     }
 
     /**
