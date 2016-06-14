@@ -2,6 +2,7 @@
 namespace FatFree\Dao\Config;
 
 use FatFree\Dao\Config\Connection\MysqlConnection;
+use Doctrine\Common\Cache\Cache;
 
 class OrmConfig
 {
@@ -64,7 +65,7 @@ class OrmConfig
     /**
      * @param array $cache
      */
-    public function setCache($cache)
+    public function setCache(Cache $cache)
     {
         $this->cache = $cache;
     }
