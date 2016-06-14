@@ -26,9 +26,8 @@ class DoctrineOrm
     /**
      * DoctrineOrm constructor.
      * @param OrmConfig $ormConfig
-     * @param string $env
      */
-    public function __construct(OrmConfig $ormConfig, $env = 'production')
+    public function __construct(OrmConfig $ormConfig)
     {
         $config = Setup::createAnnotationMetadataConfiguration(
             (array)$ormConfig->getEntityPath(),
@@ -40,7 +39,7 @@ class DoctrineOrm
             )
         );
         $config->setMetadataCacheImpl(
-            $env !== 'production' ? new ArrayCache() : $ormConfig->getCache()
+            $ormConfig->getCache()
         );
         $this->entityManager = EntityManager::create(
             $ormConfig->getConnection()->toArray(), $config
