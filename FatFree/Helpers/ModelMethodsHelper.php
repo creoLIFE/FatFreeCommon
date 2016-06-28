@@ -1,6 +1,8 @@
 <?php
 namespace FatFree\Helpers;
 
+use JMS\Serializer\SerializerBuilder;
+
 class ModelMethodsHelper implements \JsonSerializable
 {
     /**
@@ -38,12 +40,22 @@ class ModelMethodsHelper implements \JsonSerializable
 
     /**
      * Method return model varibles as JSON
+     * @return string|JSON
+     */
+    public function toSerializedJson()
+    {
+        $serializer = SerializerBuilder::create()->build();
+        return $serializer->serialize(get_object_vars($this), 'json');
+    }
+
+    /**
+     * Method return model varibles as JSON
      * #param integer $jsonpId
      * @return string|JSON
      */
     public function toJsonp($jsonpId)
     {
-        return (string) 'jsonp' . (int)$jsonpId . '(' . self::jsonSerialize() . ');';
+        return (string)'jsonp' . (int)$jsonpId . '(' . self::jsonSerialize() . ');';
     }
 
     /**
@@ -68,7 +80,8 @@ class ModelMethodsHelper implements \JsonSerializable
      * Method will use JsonSerializable to serialize varibles to JSON
      * @return string|JSON
      */
-    public function jsonSerialize(){
+    public function jsonSerialize()
+    {
         return self::fixJsonStructure(json_encode(get_object_vars($this)));
     }
 
@@ -77,7 +90,8 @@ class ModelMethodsHelper implements \JsonSerializable
      * @param string|JSON $json
      * @return string|JSON
      */
-    private function fixJsonStructure($json){
-        return str_replace(array('\"',':"{','}",'),array('"',':{','},'),$json);
+    private function fixJsonStructure($json)
+    {
+        return str_replace(array('\"', ':"{', '}",'), array('"', ':{', '},'), $json);
     }
 }
