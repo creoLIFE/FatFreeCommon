@@ -30,7 +30,6 @@ class ModelMethodsHelper implements \JsonSerializable
     /**
      * Method return model varibles as JSON
      * @return string|JSON
-     * @discontinued
      */
     public function toJson()
     {
