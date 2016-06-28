@@ -40,7 +40,6 @@ class ModelMethodsHelper implements \JsonSerializable
      * Method return model varibles as JSON
      * #param integer $jsonpId
      * @return string|JSON
-     * @discontinued
      */
     public function toJsonp($jsonpId)
     {
