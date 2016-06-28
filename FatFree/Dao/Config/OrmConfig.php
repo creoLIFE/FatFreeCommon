@@ -23,6 +23,11 @@ class OrmConfig
     private $cache;
 
     /**
+     * @var mixed
+     */
+    private $env = 'production';
+
+    /**
      * @return Mysql
      */
     public function getConnection()
@@ -55,7 +60,7 @@ class OrmConfig
     }
 
     /**
-     * @return array
+     * @return mixed
      */
     public function getCache()
     {
@@ -63,10 +68,27 @@ class OrmConfig
     }
 
     /**
-     * @param array $cache
+     * @param mixed $cache
      */
-    public function setCache(Cache $cache)
+    public function setCache($cache)
     {
         $this->cache = $cache;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEnv()
+    {
+        return $this->env;
+    }
+
+    /**
+     * @param mixed $env
+     */
+    public function setEnv($env)
+    {
+        $this->env = $env;
+    }
+
 }

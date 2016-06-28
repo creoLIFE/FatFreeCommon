@@ -31,7 +31,7 @@ class DoctrineOrm
     {
         $config = Setup::createAnnotationMetadataConfiguration(
             (array)$ormConfig->getEntityPath(),
-            $env !== 'production' ? true : false
+            $ormConfig->getEnv() !== 'production' ? true : false
         );
         $config->setMetadataDriverImpl(
             AnnotationDriver::create(
@@ -41,9 +41,11 @@ class DoctrineOrm
         $config->setMetadataCacheImpl(
             $ormConfig->getCache()
         );
+
         $this->entityManager = EntityManager::create(
             $ormConfig->getConnection()->toArray(), $config
         );
+
         return $this;
     }
 }
