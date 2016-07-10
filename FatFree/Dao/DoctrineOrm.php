@@ -41,6 +41,9 @@ class DoctrineOrm
         $config->setMetadataCacheImpl(
             $ormConfig->getCache()
         );
+        $config->setProxyDir(
+            $ormConfig->getProxyDir()
+        );
 
         $this->entityManager = EntityManager::create(
             $ormConfig->getConnection()->toArray(), $config

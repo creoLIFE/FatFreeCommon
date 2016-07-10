@@ -23,6 +23,11 @@ class OrmConfig
     private $cache;
 
     /**
+     * @var string
+     */
+    private $proxyDir = '/tmp';
+
+    /**
      * @var mixed
      */
     private $env = 'production';
@@ -73,6 +78,22 @@ class OrmConfig
     public function setCache($cache)
     {
         $this->cache = $cache;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyDir()
+    {
+        return $this->proxyDir;
+    }
+
+    /**
+     * @param string $proxyDir
+     */
+    public function setProxyDir($proxyDir)
+    {
+        $this->proxyDir = $proxyDir;
     }
 
     /**
