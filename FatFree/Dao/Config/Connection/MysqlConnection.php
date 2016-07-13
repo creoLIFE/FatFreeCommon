@@ -56,5 +56,7 @@ class MysqlConnection
                 $this->$key = $params[$key];
             }
         }
+
+        return $this;
     }
 }
