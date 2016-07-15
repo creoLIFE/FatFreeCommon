@@ -2,6 +2,7 @@
 namespace FatFree\Helpers;
 
 use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializationContext;
 
 class ModelMethodsHelper implements \JsonSerializable
 {
