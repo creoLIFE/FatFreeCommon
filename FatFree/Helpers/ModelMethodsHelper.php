@@ -40,12 +40,16 @@ class ModelMethodsHelper implements \JsonSerializable
 
     /**
      * Method return model varibles as JSON
+     * @param boolean $allowNull - allow (add) fields where they has null value
      * @return string|JSON
      */
-    public function toSerializedJson()
+    public function toSerializedJson($allowNull = false)
     {
+        $context = new SerializationContext();
+        $context->setSerializeNull($allowNull);
+
         $serializer = SerializerBuilder::create()->build();
-        return $serializer->serialize(get_object_vars($this), 'json');
+        return $serializer->serialize(get_object_vars($this), 'json', $context);
     }
 
     /**
