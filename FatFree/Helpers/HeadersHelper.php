@@ -21,6 +21,14 @@ class HeadersHelper
     /**
      * @return void
      */
+    public static function setXmlHeaders()
+    {
+        header("Content-type: text/xml; charset=utf-8");
+    }
+
+    /**
+     * @return void
+     */
     public static function setJavascriptHeaders()
     {
         header('Content-type: text/javascript');
