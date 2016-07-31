@@ -31,6 +31,11 @@ class OrmConfig
     protected $proxyNamespace = 'OrmProxies';
 
     /**
+     * @var boolean
+     */
+    protected $proxyAutogenerate = false;
+
+    /**
      * @var string
      */
     protected $hydratorDir = '/tmp/orm/hydrator';
@@ -39,6 +44,11 @@ class OrmConfig
      * @var string
      */
     protected $hydratorNamespace = 'OrmHydrators';
+
+    /**
+     * @var boolean
+     */
+    protected $hydratorAutogenerate = false;
 
     /**
      * @var mixed
@@ -136,6 +146,22 @@ class OrmConfig
     }
 
     /**
+     * @return boolean
+     */
+    public function isProxyAutogenerate()
+    {
+        return $this->proxyAutogenerate;
+    }
+
+    /**
+     * @param boolean $proxyAutogenerate
+     */
+    public function setProxyAutogenerate($proxyAutogenerate)
+    {
+        $this->proxyAutogenerate = $proxyAutogenerate;
+    }
+
+    /**
      * @return string
      */
     public function getHydratorDir()
@@ -165,6 +191,22 @@ class OrmConfig
     public function setHydratorNamespace($hydratorNamespace)
     {
         $this->hydratorNamespace = $hydratorNamespace;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHydratorAutogenerate()
+    {
+        return $this->hydratorAutogenerate;
+    }
+
+    /**
+     * @param boolean $hydratorAutogenerate
+     */
+    public function setHydratorAutogenerate($hydratorAutogenerate)
+    {
+        $this->hydratorAutogenerate = $hydratorAutogenerate;
     }
 
     /**

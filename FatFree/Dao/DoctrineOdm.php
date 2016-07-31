@@ -30,12 +30,17 @@ class DoctrineOdm
 
         $config->setProxyDir($odmConfig->getProxyDir());
         $config->setProxyNamespace($odmConfig->getProxyNamespace());
+        $config->setAutoGenerateProxyClasses($odmConfig->isProxyAutogenerate());
         $config->setHydratorDir($odmConfig->getHydratorDir());
         $config->setHydratorNamespace($odmConfig->getHydratorNamespace());
+        $config->setAutoGenerateHydratorClasses($odmConfig->isHydratorAutogenerate());
         $config->setDefaultDB($odmConfig->getDefaultDB());
         $config->setMetadataDriverImpl(
-            AnnotationDriver::create($odmConfig->getDocumentPath())
+            AnnotationDriver::create(
+                (array)$odmConfig->getDocumentPath()
+            )
         );
+
         AnnotationDriver::registerAnnotationClasses();
 
         $this->documentManager = DocumentManager::create(

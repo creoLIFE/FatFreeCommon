@@ -36,6 +36,11 @@ class OdmConfig
     protected $proxyNamespace = 'OdmProxies';
 
     /**
+     * @var boolean
+     */
+    protected $proxyAutogenerate = false;
+
+    /**
      * @var string
      */
     protected $hydratorDir = '/tmp/odm/hydrator';
@@ -44,6 +49,11 @@ class OdmConfig
      * @var string
      */
     protected $hydratorNamespace = 'OdmHydrators';
+
+    /**
+     * @var boolean
+     */
+    protected $hydratorAutogenerate = false;
 
     /**
      * @var mixed
@@ -157,6 +167,22 @@ class OdmConfig
     }
 
     /**
+     * @return boolean
+     */
+    public function isProxyAutogenerate()
+    {
+        return $this->proxyAutogenerate;
+    }
+
+    /**
+     * @param boolean $proxyAutogenerate
+     */
+    public function setProxyAutogenerate($proxyAutogenerate)
+    {
+        $this->proxyAutogenerate = $proxyAutogenerate;
+    }
+
+    /**
      * @return string
      */
     public function getHydratorDir()
@@ -186,6 +212,38 @@ class OdmConfig
     public function setHydratorNamespace($hydratorNamespace)
     {
         $this->hydratorNamespace = $hydratorNamespace;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHydratorAutogenerate()
+    {
+        return $this->hydratorAutogenerate;
+    }
+
+    /**
+     * @param boolean $hydratorAutogenerate
+     */
+    public function setHydratorAutogenerate($hydratorAutogenerate)
+    {
+        $this->hydratorAutogenerate = $hydratorAutogenerate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnv()
+    {
+        return $this->env;
+    }
+
+    /**
+     * @param mixed $env
+     */
+    public function setEnv($env)
+    {
+        $this->env = $env;
     }
 
 }
