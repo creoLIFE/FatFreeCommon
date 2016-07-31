@@ -14,15 +14,13 @@ abstract class BaseService extends DoctrineOrm
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insert(BaseEntity $entity, array $values)
+    public function insert(BaseEntity $entity, array $values = [])
     {
         if (empty($values)) {
-            throw new ServiceException('No data proviced for insert');
-            return $entity;
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
         }
 
-        //Map data to entity
-        $entity->fromArray($this->prepareAttributes($entity, $values));
         $entity->setCreated(date("Y-m-d H:i:s"));
 
         $this->entityManager
@@ -32,21 +30,18 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
-     * Method will insert entity to DB
+     * Method will insert entity to DB when same entity doesnt exist.
      * @param BaseEntity $entity
      * @param array $values
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insertIfNotExist(BaseEntity $entity, array $values)
+    public function insertIfNotExist(BaseEntity $entity, array $values = [])
     {
         if (empty($values)) {
-            throw new ServiceException('No data provided for insert');
-            return $entity;
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
         }
-
-        //Map data to entity
-        $entity->fromArray($this->prepareAttributes($entity, $values));
 
         if (!self::exist($entity)) {
             $entity->setCreated(date("Y-m-d H:i:s"));
@@ -55,6 +50,36 @@ abstract class BaseService extends DoctrineOrm
         }
 
         return $entity;
+    }
+
+    /**
+     * Method will insert entity to DB when same entity doesnt exist. Existing entity will be checked by given keys
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param array $keys
+     * @return BaseEntity|void
+     * @throws ServiceException
+     */
+    public function insertIfNotExistByKeys(BaseEntity $entity, array $values = [], array $keys)
+    {
+        if (empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
+        $foundEntity = $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+
+        if (!$foundEntity) {
+            $entity->setCreated(date("Y-m-d H:i:s"));
+            $this->entityManager
+                ->persist($entity);
+
+            return $entity;
+        }
+
+        return $foundEntity;
     }
 
     /**

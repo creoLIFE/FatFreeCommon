@@ -14,18 +14,16 @@ abstract class BaseService extends DoctrineOdm
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insert(BaseEntity $entity, array $values)
+    public function insert(BaseEntity $entity, array $values = [])
     {
         if (empty($values)) {
-            throw new ServiceException('No data proviced for insert');
-            return $entity;
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
         }
 
-        //Map data to entity
-        $entity->fromArray($this->prepareAttributes($entity, $values));
         $entity->setCreated(date("Y-m-d H:i:s"));
 
-        $this->entityManager
+        $this->documentManager
             ->persist($entity);
 
         return $entity;
@@ -38,23 +36,52 @@ abstract class BaseService extends DoctrineOdm
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insertIfNotExist(BaseEntity $entity, array $values)
+    public function insertIfNotExist(BaseEntity $entity, array $values = [])
     {
         if (empty($values)) {
-            throw new ServiceException('No data provided for insert');
-            return $entity;
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
         }
-
-        //Map data to entity
-        $entity->fromArray($this->prepareAttributes($entity, $values));
 
         if (!self::exist($entity)) {
             $entity->setCreated(date("Y-m-d H:i:s"));
-            $entity = $this->entityManager
+            $entity = $this->documentManager
                 ->persist($entity);
         }
 
         return $entity;
+    }
+
+    /**
+     * Method will insert entity to DB when same entity doesnt exist. Existing entity will be checked by given keys
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param array $keys
+     * @return BaseEntity|void
+     * @throws ServiceException
+     */
+    public function insertIfNotExistByKeys(BaseEntity $entity, array $values = [], array $keys)
+    {
+        if (empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
+        $foundEntity = $this->documentManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+
+        if (!$foundEntity) {
+            $entity->setCreated(date("Y-m-d H:i:s"));
+            $this->documentManager
+                ->persist($entity);
+            $this->documentManager
+                ->flush();
+
+            return $entity;
+        }
+
+        return $foundEntity;
     }
 
     /**
@@ -64,7 +91,7 @@ abstract class BaseService extends DoctrineOdm
      */
     public function exist(BaseEntity $entity)
     {
-        return $this->entityManager
+        return $this->documentManager
             ->getRepository($entity->getClassName())
             ->find($entity) ? true : false;
     }
@@ -76,7 +103,7 @@ abstract class BaseService extends DoctrineOdm
      */
     public function delete(BaseEntity $entity)
     {
-        return $this->entityManager
+        return $this->documentManager
             ->remove($entity);
     }
 
@@ -100,7 +127,7 @@ abstract class BaseService extends DoctrineOdm
     public function update(BaseEntity $entity)
     {
         $entity->setUpdated(date("Y-m-d H:i:s"));
-        $this->entityManager->merge($entity);
+        $this->documentManager->merge($entity);
 
         return $entity;
     }
@@ -110,7 +137,7 @@ abstract class BaseService extends DoctrineOdm
      */
     public function flush()
     {
-        $this->entityManager->flush();
+        $this->documentManager->flush();
     }
 
     /**
@@ -122,18 +149,18 @@ abstract class BaseService extends DoctrineOdm
     public function prepareAttributes(BaseEntity $entity, array $attributes)
     {
         foreach ($attributes as $fieldName => &$fieldValue) {
-            if (!$this->entityManager->getClassMetadata($entity->getClassName())->hasAssociation($fieldName)) {
+            if (!$this->documentManager->getClassMetadata($entity->getClassName())->hasAssociation($fieldName)) {
                 continue;
             }
 
-            $association = $this->entityManager->getClassMetadata($entity->getClassName())
+            $association = $this->documentManager->getClassMetadata($entity->getClassName())
                 ->getAssociationMapping($fieldName);
 
             if (is_null($fieldValue)) {
                 continue;
             }
 
-            $fieldValue = $this->entityManager->getReference($association['targetEntity'], $fieldValue);
+            $fieldValue = $this->documentManager->getReference($association['targetEntity'], $fieldValue);
 
             unset($fieldValue);
         }
