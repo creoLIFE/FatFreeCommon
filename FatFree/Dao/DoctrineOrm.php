@@ -38,16 +38,10 @@ class DoctrineOrm
                 (array)$ormConfig->getEntityPath()
             )
         );
-        $config->setMetadataCacheImpl(
-            $ormConfig->getCache()
-        );
-        $config->setProxyDir(
-            $ormConfig->getProxyDir()
-        );
+        $config->setMetadataCacheImpl($ormConfig->getCache());
+        $config->setProxyDir($ormConfig->getProxyDir());
 
-        $this->entityManager = EntityManager::create(
-            $ormConfig->getConnection()->toArray(), $config
-        );
+        $this->entityManager = EntityManager::create($ormConfig->getConnection()->toArray(), $config);
 
         return $this;
     }

@@ -1,26 +1,26 @@
 <?php
 
-namespace FatFree\Entity\DoctrineOrm;
+namespace FatFree\Entity\DoctrineOdm;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 trait DatetimeTriat
 {
     /**
      * @var string
-     * @ORM\Column(type="datetime", length=30, nullable=true)
+     * @ODM\Field(type="date", nullable=true)
      */
     private $_created;
 
     /**
      * @var string
-     * @ORM\Column(type="datetime", length=30, nullable=true)
+     * @ODM\Field(type="date", nullable=true)
      */
     private $_modified;
 
     /**
      * @var string
-     * @ORM\Column(type="datetime", length=30, nullable=true)
+     * @ODM\Field(type="date", nullable=true)
      */
     private $_deleted;
 

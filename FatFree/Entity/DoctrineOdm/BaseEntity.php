@@ -1,19 +1,19 @@
 <?php
-namespace FatFree\Entity\DoctrineOrm;
+namespace FatFree\Entity\DoctrineOdm;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use FatFree\Helpers\ModelMethodsHelper;
 use FatFree\Entity\MapperTriat;
 
 /**
- * @ORM\MappedSuperclass()
+ * @ODM\MappedSuperclass()
  */
 abstract class BaseEntity extends ModelMethodsHelper
 {
 	/**
 	 * Default ID filed name from IdentifierTriat
 	 */
-	const APP_ENUM_DOCTRINEORM_ENTITY_ID = 'id';
+	const APP_ENUM_DOCTRINEODM_ENTITY_ID = 'id';
 
 	use IdentifierTriat;
 	use MapperTriat;

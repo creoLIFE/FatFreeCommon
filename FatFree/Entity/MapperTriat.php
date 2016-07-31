@@ -1,6 +1,6 @@
 <?php
 
-namespace FatFree\Entity\DoctrineOrm;
+namespace FatFree\Entity;
 
 trait MapperTriat
 {

@@ -1,19 +1,19 @@
 <?php
 namespace FatFree\Dao\Config;
 
-use FatFree\Dao\Config\Connection\MysqlConnection;
+use FatFree\Dao\Config\Connection\MongodbConnection;
 
-class OrmConfig
+class OdmConfig
 {
     /**
-     * @var MysqlConnection
+     * @var MongodbConnection
      */
     protected $connection;
 
     /**
      * @var array
      */
-    protected $entityPath = [];
+    protected $documentPath = [];
 
     /**
      * @var mixed
@@ -21,24 +21,29 @@ class OrmConfig
     protected $cache;
 
     /**
-     * @var string
+     * @var mixed
      */
-    protected $proxyDir = '/tmp/orm/proxy';
+    protected $defaultDB;
 
     /**
      * @var string
      */
-    protected $proxyNamespace = 'OrmProxies';
+    protected $proxyDir = '/tmp/odm/proxy';
 
     /**
      * @var string
      */
-    protected $hydratorDir = '/tmp/orm/hydrator';
+    protected $proxyNamespace = 'OdmProxies';
 
     /**
      * @var string
      */
-    protected $hydratorNamespace = 'OrmHydrators';
+    protected $hydratorDir = '/tmp/odm/hydrator';
+
+    /**
+     * @var string
+     */
+    protected $hydratorNamespace = 'OdmHydrators';
 
     /**
      * @var mixed
@@ -51,12 +56,12 @@ class OrmConfig
      */
     public function __construct()
     {
-        $this->connection = new MysqlConnection();
+        $this->connection = new MongodbConnection();
     }
 
 
     /**
-     * @return MysqlConnection
+     * @return MongodbConnection
      */
     public function getConnection()
     {
@@ -64,9 +69,9 @@ class OrmConfig
     }
 
     /**
-     * @param MysqlConnection $connection
+     * @param MongodbConnection $connection
      */
-    public function setConnection(MysqlConnection $connection)
+    public function setConnection(MongodbConnection $connection)
     {
         $this->connection = $connection;
     }
@@ -74,17 +79,17 @@ class OrmConfig
     /**
      * @return array
      */
-    public function getEntityPath()
+    public function getDocumentPath()
     {
-        return $this->entityPath;
+        return $this->documentPath;
     }
 
     /**
-     * @param array $entityPath
+     * @param array $documentPath
      */
-    public function setEntityPath($entityPath)
+    public function setDocumentPath($documentPath)
     {
-        $this->entityPath = $entityPath;
+        $this->documentPath = $documentPath;
     }
 
     /**
@@ -101,6 +106,22 @@ class OrmConfig
     public function setCache($cache)
     {
         $this->cache = $cache;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultDB()
+    {
+        return $this->defaultDB;
+    }
+
+    /**
+     * @param mixed $defaultDB
+     */
+    public function setDefaultDB($defaultDB)
+    {
+        $this->defaultDB = $defaultDB;
     }
 
     /**
@@ -165,22 +186,6 @@ class OrmConfig
     public function setHydratorNamespace($hydratorNamespace)
     {
         $this->hydratorNamespace = $hydratorNamespace;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEnv()
-    {
-        return $this->env;
-    }
-
-    /**
-     * @param mixed $env
-     */
-    public function setEnv($env)
-    {
-        $this->env = $env;
     }
 
 }

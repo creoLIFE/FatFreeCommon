@@ -62,6 +62,34 @@ class HeadersHelper
         //86400 - 1day (60sec * 60min * 24hours)
         header("Cache-Control: max-age=" . (int)$expTime);
         header("Expires: " . date("D, d M Y H:i:s e", time() + (int)$expTime)); // Date in the past
+
+        //TODO - To check
+        /*
+        if ((int)$expTime === -1) {
+            $expTime = (int)\F3::get('HEADER.cache');
+        }
+
+        $lastModified = \F3::get('HEADERS.If-Modified-Since');
+        if (!$lastModified) {
+            $lastModified = date("D, d M Y H:i:s e", time());
+            $expire = date("D, d M Y H:i:s e", time() + (int)$expTime);
+        } else {
+            $expire = date("D, d M Y H:i:s e", strtotime($lastModified) + (int)$expTime);
+        }
+
+        //86400 - 1day (60sec * 60min * 24hours)
+        if ($expTime === 0) {
+            header("Expires: " . date("D, d M Y H:i:s e", time() - 1));
+            header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+            header("Pragma: no-cache");
+        } else {
+            session_cache_limiter(false);
+            header("Expires: " . $expire);
+            header("Cache-Control: public, max-age=" . (int)$expTime);
+            header('Last-Modified: ' . $lastModified);
+            self::setResponseCode(304);
+        }
+        */
     }
 
 }
