@@ -76,6 +76,7 @@ abstract class BaseRepository extends EntityRepository
     public function findOneByKeys(BaseEntity $entity, array $keys)
     {
         $arr = $entity->toArray();
+
         $criteria = [];
         $result = null;
 

@@ -9,7 +9,7 @@ trait IdentifierTriat
      * @var integer
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -29,9 +29,21 @@ trait IdentifierTriat
         $this->id = $id;
     }
 
+    /**
+     * Clone ID
+     */
     public function __clone()
     {
         $this->id = NULL;
+    }
+
+    /**
+     * Checks if ID is set
+     * @return boolean
+     */
+    public function isIdSet()
+    {
+        return $this->id || $this->id === 0 || $this->id === '0' ? true : false;
     }
 
 }

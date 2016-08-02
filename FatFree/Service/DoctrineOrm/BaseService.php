@@ -4,6 +4,8 @@ namespace FatFree\Service\DoctrineOrm;
 use FatFree\Dao\DoctrineOrm;
 use FatFree\Entity\DoctrineOrm\BaseEntity;
 use FatFree\Service\ServiceException;
+use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 abstract class BaseService extends DoctrineOrm
 {
@@ -11,20 +13,31 @@ abstract class BaseService extends DoctrineOrm
      * Method will insert entity to DB
      * @param BaseEntity $entity
      * @param array $values
+     * @param boolean $flush
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insert(BaseEntity $entity, array $values = [])
+    public function insert(BaseEntity $entity, array $values = [], $flush = true)
     {
-        if (empty($values)) {
+        if (!empty($values)) {
             //Map data to entity
             $entity->fromArray($this->prepareAttributes($entity, $values));
         }
 
-        $entity->setCreated(date("Y-m-d H:i:s"));
+        $entity->setCreated(new \DateTime());
+
+        if ($entity->isIdSet()) {
+            $metadata = $this->entityManager->getClassMetaData($entity->getClassName());
+            $metadata->setIdGenerator(new AssignedGenerator);
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        }
 
         $this->entityManager
             ->persist($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
 
         return $entity;
     }
@@ -33,20 +46,32 @@ abstract class BaseService extends DoctrineOrm
      * Method will insert entity to DB when same entity doesnt exist.
      * @param BaseEntity $entity
      * @param array $values
+     * @param boolean $flush
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insertIfNotExist(BaseEntity $entity, array $values = [])
+    public function insertIfNotExist(BaseEntity $entity, array $values = [], $flush = true)
     {
-        if (empty($values)) {
+        if (!empty($values)) {
             //Map data to entity
             $entity->fromArray($this->prepareAttributes($entity, $values));
         }
 
         if (!self::exist($entity)) {
-            $entity->setCreated(date("Y-m-d H:i:s"));
+            $entity->setCreated(new \DateTime());
+
+            if ($entity->isIdSet()) {
+                $metadata = $this->entityManager->getClassMetaData($entity->getClassName());
+                $metadata->setIdGenerator(new AssignedGenerator);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+            }
+
             $entity = $this->entityManager
                 ->persist($entity);
+        }
+
+        if ($flush) {
+            $this->flush();
         }
 
         return $entity;
@@ -57,12 +82,13 @@ abstract class BaseService extends DoctrineOrm
      * @param BaseEntity $entity
      * @param array $values
      * @param array $keys
+     * @param boolean $flush
      * @return BaseEntity|void
      * @throws ServiceException
      */
-    public function insertIfNotExistByKeys(BaseEntity $entity, array $values = [], array $keys)
+    public function insertIfNotExistByKeys(BaseEntity $entity, array $values = [], array $keys, $flush = true)
     {
-        if (empty($values)) {
+        if (!empty($values)) {
             //Map data to entity
             $entity->fromArray($this->prepareAttributes($entity, $values));
         }
@@ -72,9 +98,20 @@ abstract class BaseService extends DoctrineOrm
             ->findOneByKeys($entity, $keys);
 
         if (!$foundEntity) {
-            $entity->setCreated(date("Y-m-d H:i:s"));
+            $entity->setCreated(new \DateTime());
+
+            if ($entity->isIdSet()) {
+                $metadata = $this->entityManager->getClassMetaData($entity->getClassName());
+                $metadata->setIdGenerator(new AssignedGenerator);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+            }
+
             $this->entityManager
                 ->persist($entity);
+
+            if ($flush) {
+                $this->flush();
+            }
 
             return $entity;
         }
@@ -97,35 +134,54 @@ abstract class BaseService extends DoctrineOrm
     /**
      * Method will delete entity to DB
      * @param BaseEntity $entity
+     * @param boolean $flush
      * @return integer|false
      */
-    public function delete(BaseEntity $entity)
+    public function delete(BaseEntity $entity, $flush = true)
     {
-        return $this->entityManager
+        $entity = $this->entityManager
             ->remove($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
+
+        return $entity;
     }
 
     /**
      * Method will mark entity as deleted but will not delete it
      * @param BaseEntity $entity
+     * @param boolean $flush
      * @return BaseEntity
      */
-    public function deleteSafe(BaseEntity $entity)
+    public function deleteSafe(BaseEntity $entity, $flush = true)
     {
         $entity->setSafedelete(1);
-        $entity->setDeleted(date("Y-m-d H:i:s"));
-        return $this->update($entity);
+        $entity->setDeleted(new \DateTime());
+        $entity = $this->update($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
+
+        return $entity;
     }
 
     /**
      * Method will update entity
      * @param BaseEntity $entity
+     * @param boolean $flush
      * @return BaseEntity
      */
-    public function update(BaseEntity $entity)
+    public function update(BaseEntity $entity, $flush = true)
     {
-        $entity->setUpdated(date("Y-m-d H:i:s"));
+        $entity->setUpdated(new \DateTime());
         $this->entityManager->merge($entity);
+
+        if ($flush) {
+            $this->flush();
+        }
 
         return $entity;
     }
