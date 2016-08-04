@@ -10,6 +10,17 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 abstract class BaseService extends DoctrineOrm
 {
     /**
+     * Method will check if entity exists in DB by Its ID
+     * @param BaseEntity $entity
+     * @return bool
+     */
+    public function getRepository(BaseEntity $entity)
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName());
+    }
+
+    /**
      * Method will insert entity to DB
      * @param BaseEntity $entity
      * @param array $values
@@ -108,6 +119,48 @@ abstract class BaseService extends DoctrineOrm
 
             $this->entityManager
                 ->persist($entity);
+
+            if ($flush) {
+                $this->flush();
+            }
+
+            return $entity;
+        }
+
+        return $foundEntity;
+    }
+
+    /**
+     * Method will merge entity to DB when same entity doesnt exist. Existing entity will be checked by given keys
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param array $keys
+     * @param boolean $flush
+     * @return BaseEntity|void
+     * @throws ServiceException
+     */
+    public function mergeIfNotExistByKeys(BaseEntity $entity, array $values = [], array $keys, $flush = true)
+    {
+        if (!empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
+        $foundEntity = $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+
+        if (!$foundEntity) {
+            $entity->setCreated(new \DateTime());
+
+            if ($entity->isIdSet()) {
+                $metadata = $this->entityManager->getClassMetaData($entity->getClassName());
+                $metadata->setIdGenerator(new AssignedGenerator);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+            }
+
+            $this->entityManager
+                ->merge($entity);
 
             if ($flush) {
                 $this->flush();

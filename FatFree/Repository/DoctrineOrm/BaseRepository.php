@@ -17,7 +17,7 @@ abstract class BaseRepository extends EntityRepository
         return $this->entityManager
             ->findOnBy(
                 [
-                    BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID => $entity->getId()
+                    BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID => $entity->{'get' . ucfirst(BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID)}
                 ]
             );
     }
