@@ -12,14 +12,13 @@ abstract class BaseRepository extends EntityRepository
      * @param BaseEntity $entity
      * @return bool
      */
-    public function findById(BaseEntity $entity)
+    public function findByIdaaa1(BaseEntity $entity)
     {
-        return $this->entityManager
-            ->findOnBy(
-                [
-                    BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID => $entity->{'get' . ucfirst(BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID)}
-                ]
-            );
+        return $this->findOneBy(
+            [
+                BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID => $entity->{'get'. ucfirst(BaseEntity::APP_ENUM_DOCTRINEORM_ENTITY_ID)}()
+            ]
+        );
     }
 
     /**

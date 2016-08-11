@@ -10,17 +10,6 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 abstract class BaseService extends DoctrineOrm
 {
     /**
-     * Method will check if entity exists in DB by Its ID
-     * @param BaseEntity $entity
-     * @return bool
-     */
-    public function getRepository(BaseEntity $entity)
-    {
-        return $this->entityManager
-            ->getRepository($entity->getClassName());
-    }
-
-    /**
      * Method will insert entity to DB
      * @param BaseEntity $entity
      * @param array $values
@@ -77,7 +66,7 @@ abstract class BaseService extends DoctrineOrm
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
             }
 
-            $entity = $this->entityManager
+            $this->entityManager
                 ->persist($entity);
         }
 
@@ -159,7 +148,7 @@ abstract class BaseService extends DoctrineOrm
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
             }
 
-            $this->entityManager
+            $entity = $this->entityManager
                 ->merge($entity);
 
             if ($flush) {
@@ -192,7 +181,7 @@ abstract class BaseService extends DoctrineOrm
      */
     public function delete(BaseEntity $entity, $flush = true)
     {
-        $entity = $this->entityManager
+        $this->entityManager
             ->remove($entity);
 
         if ($flush) {
