@@ -12,7 +12,7 @@ abstract class BaseRepository extends EntityRepository
      * @param BaseEntity $entity
      * @return bool
      */
-    public function findByIdaaa1(BaseEntity $entity)
+    public function findOneById(BaseEntity $entity)
     {
         return $this->findOneBy(
             [

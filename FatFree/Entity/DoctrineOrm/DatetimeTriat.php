@@ -10,19 +10,19 @@ trait DatetimeTriat
      * @var string
      * @ORM\Column(type="datetime", length=30, nullable=true)
      */
-    private $_created;
+    protected $_created;
 
     /**
      * @var string
      * @ORM\Column(type="datetime", length=30, nullable=true)
      */
-    private $_modified;
+    protected $_modified;
 
     /**
      * @var string
      * @ORM\Column(type="datetime", length=30, nullable=true)
      */
-    private $_deleted;
+    protected $_deleted;
 
     /**
      * @return string

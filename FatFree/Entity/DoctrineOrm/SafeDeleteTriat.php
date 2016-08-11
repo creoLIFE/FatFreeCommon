@@ -10,7 +10,7 @@ trait SafeDeleteTriat
      * @var boolean
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $safeDelete = 0;
+    protected $safeDelete = 0;
 
     /**
      * @return string
