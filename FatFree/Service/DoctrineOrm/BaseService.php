@@ -120,6 +120,41 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
+     * Method will insert entity to DB when same entity doesnt exist.
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param boolean $flush
+     * @return BaseEntity|void
+     * @throws ServiceException
+     */
+    public function mergeIfNotExist(BaseEntity $entity, array $values = [], $flush = true)
+    {
+        if (!empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
+        if (!self::exist($entity)) {
+            $entity->setCreated(new \DateTime());
+
+            if ($entity->isIdSet()) {
+                $metadata = $this->entityManager->getClassMetaData($entity->getClassName());
+                $metadata->setIdGenerator(new AssignedGenerator);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+            }
+
+            $this->entityManager
+                ->merge($entity);
+        }
+
+        if ($flush) {
+            $this->flush();
+        }
+
+        return $entity;
+    }
+
+    /**
      * Method will merge entity to DB when same entity doesnt exist. Existing entity will be checked by given keys
      * @param BaseEntity $entity
      * @param array $values
