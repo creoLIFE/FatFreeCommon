@@ -3,7 +3,7 @@ namespace FatFree\Entity\DoctrineOrm;
 
 use Doctrine\ORM\Mapping as ORM;
 use FatFree\Helpers\ModelMethodsHelper;
-use FatFree\Entity\MapperTriat;
+use FatFree\Entity\MapperTrait;
 
 /**
  * @ORM\MappedSuperclass()
@@ -11,12 +11,12 @@ use FatFree\Entity\MapperTriat;
 abstract class BaseEntity extends ModelMethodsHelper
 {
 	/**
-	 * Default ID filed name from IdentifierTriat
+	 * Default ID filed name from IdentifierTrait
 	 */
 	const APP_ENUM_DOCTRINEORM_ENTITY_ID = 'id';
 
-	use IdentifierTriat;
-	use MapperTriat;
-	use SafeDeleteTriat;
-	use DatetimeTriat;
+	use IdentifierTrait;
+	use MapperTrait;
+	use SafeDeleteTrait;
+	use DatetimeTrait;
 }

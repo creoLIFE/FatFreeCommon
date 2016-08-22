@@ -4,7 +4,7 @@ namespace FatFree\Entity\DoctrineOrm;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait SafeDeleteTriat
+trait SafeDeleteTrait
 {
     /**
      * @var boolean

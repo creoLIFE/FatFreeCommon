@@ -4,7 +4,7 @@ namespace FatFree\Entity\DoctrineOdm;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-trait DatetimeTriat
+trait DatetimeTrait
 {
     /**
      * @var string

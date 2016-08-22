@@ -3,7 +3,7 @@ namespace FatFree\Entity\DoctrineOdm;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-trait IdentifierTriat
+trait IdentifierTrait
 {
     /**
      * @var integer
