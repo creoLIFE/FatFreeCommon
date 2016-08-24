@@ -126,7 +126,7 @@ abstract class BaseService extends DoctrineOdm
      */
     public function update(BaseEntity $entity)
     {
-        $entity->setUpdated(date("Y-m-d H:i:s"));
+        $entity->setModified(date("Y-m-d H:i:s"));
         $this->documentManager->merge($entity);
 
         return $entity;

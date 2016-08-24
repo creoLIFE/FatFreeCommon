@@ -3,7 +3,7 @@ namespace FatFree\Entity\DoctrineOdm;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use FatFree\Helpers\ModelMethodsHelper;
-use FatFree\Entity\MapperTrait;
+use FatFree\Entity\MapperTriat;
 
 /**
  * @ODM\MappedSuperclass()
@@ -11,12 +11,12 @@ use FatFree\Entity\MapperTrait;
 abstract class BaseEntity extends ModelMethodsHelper
 {
 	/**
-	 * Default ID filed name from IdentifierTrait
+	 * Default ID filed name from IdentifierTriat
 	 */
 	const APP_ENUM_DOCTRINEODM_ENTITY_ID = 'id';
 
-	use IdentifierTrait;
-	use MapperTrait;
-	use SafeDeleteTrait;
-	use DatetimeTrait;
+	use IdentifierTriat;
+	use MapperTriat;
+	use SafeDeleteTriat;
+	use DatetimeTriat;
 }

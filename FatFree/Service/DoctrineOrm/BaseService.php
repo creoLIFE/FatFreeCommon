@@ -253,7 +253,7 @@ abstract class BaseService extends DoctrineOrm
      */
     public function update(BaseEntity $entity, $flush = true)
     {
-        $entity->setUpdated(new \DateTime());
+        $entity->setModified(new \DateTime());
         $this->entityManager->merge($entity);
 
         if ($flush) {

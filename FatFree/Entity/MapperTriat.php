@@ -2,7 +2,7 @@
 
 namespace FatFree\Entity;
 
-trait MapperTrait
+trait MapperTriat
 {
     /**
      * Assign entity properties using an array
