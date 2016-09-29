@@ -1,5 +1,5 @@
 <?php
-namespace FatFree\Worker;
+namespace FatFree\Worker\Rabbitmq;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -25,25 +25,6 @@ class BaseWorker implements WorkerInterface
 
         return $this;
     }
-
-    /**
-     * Execute consumer.
-     */
-    /*
-    public function execute()
-    {
-        $message = new AMQPMessage(
-            '',
-            array('delivery_mode' => 2) # make message persistent, so it is not lost if server crashes or quits
-        );
-
-        $this->publish(
-            $message,
-            'testQueue',
-            ''
-        );
-    }
-    */
 
     public function publish(AMQPMessage $message, $queueName, $exchange = '')
     {

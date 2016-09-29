@@ -1,5 +1,5 @@
 <?php
-namespace FatFree\Worker;
+namespace FatFree\Worker\Rabbitmq;
 
 use PhpAmqpLib\Message\AMQPMessage;
 
