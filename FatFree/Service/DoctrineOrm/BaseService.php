@@ -1,4 +1,5 @@
 <?php
+
 namespace FatFree\Service\DoctrineOrm;
 
 use FatFree\Dao\DoctrineOrm;
