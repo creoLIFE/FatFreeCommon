@@ -43,7 +43,8 @@ class Url
      */
     public function get($routeName, $params = array(), $useGetParams = false, $cleanString = true)
     {
-        $u = $this->f3->get("ALIASES.$routeName");
+        $hive = $this->f3->hive();
+        $u = $hive["ALIASES"][$routeName];
         foreach ($params as $k => $v) {
             if (strpos($u, "@$k")) {
                 $str = $cleanString ? self::cleanString($v) : $v;
