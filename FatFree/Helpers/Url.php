@@ -36,11 +36,12 @@ class Url
      * Method will get url base on given route allias and params
      * @param string $routeName
      * @param array $params
+     * @param bool $useGetParams - read and use GET params from current URL in browser
      * @param bool $cleanString
      * @return mixed|string
      * @throws \Exception
      */
-    public function get($routeName, $params = array(), $cleanString = true)
+    public function get($routeName, $params = array(), $useGetParams = false, $cleanString = true)
     {
         $u = $this->f3->get("ALIASES.$routeName");
         foreach ($params as $k => $v) {
@@ -52,7 +53,12 @@ class Url
         if (strpos($u, "@")) {
             Throw new \Exception("You must provide valid parameters to route '$routeName'!");
         }
-        return $u && !strpos($u, "@") ? $u : '#';
+        $u = $u && !strpos($u, "@") ? $u : '#';
+
+        return $useGetParams ? sprintf('%s%s',
+            $u,
+            self::getUrlParams($cleanString)
+        ) : $u;
     }
 
     /**
@@ -100,5 +106,28 @@ class Url
         $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
 
         return $clean;
+    }
+
+    /**
+     * Method will get URL params and clean them from une.
+     * @param [string] $str - string to convert
+     * @param [array] $replace - replacements
+     * @param [string] $delimeter
+     * @return [string]
+     */
+    private function getUrlParams()
+    {
+        if (isset(parse_url($_SERVER['REQUEST_URI'])['query'])) {
+            $query = parse_url($_SERVER['REQUEST_URI'])['query'];
+            parse_str($query, $elements);
+
+            foreach ($elements as $key => $val) {
+                $elements[htmlspecialchars($key)] = htmlspecialchars($val);
+            }
+
+            return sprintf('?%s', http_build_query($elements));
+        } else {
+            return null;
+        }
     }
 }
