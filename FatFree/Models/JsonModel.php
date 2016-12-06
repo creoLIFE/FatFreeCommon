@@ -44,7 +44,7 @@ class JsonModel extends ModelMethodsHelper
     {
         $this->data = $data;
         $this->setStatus( $data ? 200 : 204);
-        $this->setUId(md5($data));
+        $this->setUId(md5(serialize($data)));
     }
 
     /**
