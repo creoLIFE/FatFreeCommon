@@ -23,6 +23,11 @@ class JsonModel extends ModelMethodsHelper
     protected $sId;
 
     /*
+     * @var string $uId - unique data ID
+     */
+    protected $uId;
+
+    /*
      * @var mixed $data - data object
      */
     protected $data;
@@ -38,6 +43,8 @@ class JsonModel extends ModelMethodsHelper
     public function setData($data)
     {
         $this->data = $data;
+        $this->setStatus( $data ? 200 : 204);
+        $this->setUId(md5($data));
     }
 
     /**
@@ -54,6 +61,22 @@ class JsonModel extends ModelMethodsHelper
     public function setSId($sId)
     {
         $this->sId = $sId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUId()
+    {
+        return $this->uId;
+    }
+
+    /**
+     * @param mixed $uId
+     */
+    public function setUId($uId)
+    {
+        $this->uId = $uId;
     }
 
     /**
