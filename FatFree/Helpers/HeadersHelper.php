@@ -13,7 +13,7 @@ class HeadersHelper
     /**
      * @return void
      */
-    public static function setJsonHeaders()
+    public static function addJsonHeaders()
     {
         header('Content-Type: application/json');
     }
@@ -21,7 +21,15 @@ class HeadersHelper
     /**
      * @return void
      */
-    public static function setXmlHeaders()
+    public static function addCorsHeaders()
+    {
+        header('Access-Control-Allow-Origin: *');
+    }
+
+    /**
+     * @return void
+     */
+    public static function addXmlHeaders()
     {
         header("Content-type: text/xml; charset=utf-8");
     }
@@ -29,7 +37,7 @@ class HeadersHelper
     /**
      * @return void
      */
-    public static function setJavascriptHeaders()
+    public static function addJavascriptHeaders()
     {
         header('Content-type: text/javascript');
     }
