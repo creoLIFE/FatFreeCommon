@@ -28,6 +28,15 @@ class CookieHelper
     }
 
     /**
+     * Method will get Client (Account or User) name from cookie
+     * @return boolean
+     */
+    public function getName()
+    {
+        return \F3::get('COOKIE.appCName');
+    }
+
+    /**
      * Method will get Session ID from cookie
      * @return boolean
      */
@@ -63,6 +72,16 @@ class CookieHelper
     public function setUserId($userId)
     {
         \F3::set('COOKIE.appUid', $userId, (int)\F3::get('APP.cookie.expiration'));
+    }
+
+    /**
+     * Method will set app cookies client (Account or User) name
+     * @param string $name - client name
+     * @return void
+     */
+    public function setName($name)
+    {
+        \F3::set('COOKIE.appCname', $name, (int)\F3::get('APP.cookie.expiration'));
     }
 
     /**
@@ -104,6 +123,15 @@ class CookieHelper
     }
 
     /**
+     * Method will remove client name from cookie
+     * @return void
+     */
+    public function removeName()
+    {
+        \F3::set('COOKIE.appCname', false);
+    }
+
+    /**
      * Method will remove Session ID cookies
      * @return void
      */
@@ -140,6 +168,15 @@ class CookieHelper
     }
 
     /**
+     * Method will check if client name was set and exists in cookies
+     * @return boolean
+     */
+    public function isNameSet()
+    {
+        return (boolean)\F3::get('COOKIE.appCname');
+    }
+
+    /**
      * Method will check if sessionId was set and exists in cookies
      * @return boolean
      */
@@ -166,6 +203,7 @@ class CookieHelper
         return array(
             'accountId' => \F3::get('COOKIE.appAid'),
             'userId' => \F3::get('COOKIE.appUid'),
+            'name' => \F3::get('COOKIE.appCname'),
             'sessionId' => \F3::get('COOKIE.appSid'),
             'sessionHash' => \F3::get('COOKIE.appShash')
         );
@@ -175,14 +213,16 @@ class CookieHelper
      * Method will set app cookies
      * @param string $accountId - user (client) account ID
      * @param string $userId - user (internal) ID
+     * @param string $name - client name
      * @param string $sessionId - session ID
      * @param string $sessionHash - session Hash
      * @return void
      */
-    public function setAppCookies($accountId, $userId, $sessionId, $sessionHash)
+    public function setAppCookies($accountId, $userId, $name, $sessionId, $sessionHash)
     {
         \F3::set('COOKIE.appAid', $accountId, (int)\F3::get('APP.cookie.expiration'));
         \F3::set('COOKIE.appUid', $userId, (int)\F3::get('APP.cookie.expiration'));
+        \F3::set('COOKIE.appCname', $name, (int)\F3::get('APP.cookie.expiration'));
         \F3::set('COOKIE.appSid', $sessionId, (int)\F3::get('APP.cookie.expiration'));
         \F3::set('COOKIE.appShash', $sessionHash, (int)\F3::get('APP.cookie.expiration'));
     }
@@ -195,6 +235,7 @@ class CookieHelper
     {
         \F3::set('COOKIE.appAid', false);
         \F3::set('COOKIE.appUid', false);
+        \F3::set('COOKIE.appCname', false);
         \F3::set('COOKIE.appSid', false);
         \F3::set('COOKIE.appShash', false);
     }
