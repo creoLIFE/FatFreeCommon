@@ -122,10 +122,16 @@ abstract class BaseService extends DoctrineOdm
     /**
      * Method will update entity
      * @param BaseEntity $entity
+     * @param array $values
      * @return BaseEntity
      */
-    public function update(BaseEntity $entity)
+    public function update(BaseEntity $entity, array $values = [])
     {
+        if (empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
         $entity->setModified(date("Y-m-d H:i:s"));
         $this->documentManager->merge($entity);
 

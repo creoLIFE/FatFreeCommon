@@ -249,11 +249,17 @@ abstract class BaseService extends DoctrineOrm
     /**
      * Method will update entity
      * @param BaseEntity $entity
+     * @param array $values
      * @param boolean $flush
      * @return BaseEntity
      */
-    public function update(BaseEntity $entity, $flush = true)
+    public function update(BaseEntity $entity, array $values = [], $flush = true)
     {
+        if (!empty($values)) {
+            //Map data to entity
+            $entity->fromArray($this->prepareAttributes($entity, $values));
+        }
+
         $entity->setModified(new \DateTime());
         $this->entityManager->merge($entity);
 
