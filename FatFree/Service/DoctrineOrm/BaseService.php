@@ -271,6 +271,21 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
+     * Method will check if entity exists in DB by Its ID
+     * @param BaseEntity $entity
+     * @return bool
+     */
+    public function count(BaseEntity $entity)
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Method will flush changes
      */
     public function flush()
