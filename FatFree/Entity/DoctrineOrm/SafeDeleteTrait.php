@@ -13,19 +13,18 @@ trait SafeDeleteTrait
     protected $safeDelete = 0;
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getSafedelete()
+    public function isSafeDelete()
     {
-        return $this->safedelete;
+        return $this->safeDelete;
     }
 
     /**
-     * @param string $safedelete
+     * @param boolean $safeDelete
      */
-    public function setSafedelete($safedelete)
+    public function setSafeDelete($safeDelete)
     {
-        $this->safedelete = $safedelete;
+        $this->safeDelete = $safeDelete;
     }
-
 }

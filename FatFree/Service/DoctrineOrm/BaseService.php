@@ -237,13 +237,13 @@ abstract class BaseService extends DoctrineOrm
     {
         $entity->setSafedelete(1);
         $entity->setDeleted(new \DateTime());
-        $entity = $this->update($entity);
+        $result = $this->update($entity);
 
         if ($flush) {
             $this->flush();
         }
 
-        return $entity;
+        return $result;
     }
 
     /**
