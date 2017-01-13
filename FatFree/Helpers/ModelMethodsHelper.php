@@ -73,12 +73,22 @@ class ModelMethodsHelper implements \JsonSerializable
     }
 
     /**
-     * Method return model name
+     * Method return class name
      * @return string
      */
     public function getClassName()
     {
         return (string)get_class($this);
+    }
+
+    /**
+     * Method return class name without namespace
+     * @return string
+     */
+    public function getClassNameWithoutNamespace()
+    {
+        $cNamespaceInfo = (array)explode('\\', get_class($this));
+        return (string)end($cNamespaceInfo);
     }
 
     /**
