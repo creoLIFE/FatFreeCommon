@@ -11,6 +11,18 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 abstract class BaseService extends DoctrineOrm
 {
     /**
+     * Method will get results from DB by given Entity definition
+     * @param BaseEntity $entity
+     * @return mixed
+     */
+    public function get(BaseEntity $entity)
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->find($entity);
+    }
+
+    /**
      * Method will insert entity to DB
      * @param BaseEntity $entity
      * @param array $values
