@@ -7,6 +7,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 class BaseConsumer implements ConsumerInterface
 {
     const DELIVERY_MODE = 2;
+    const QUEUE_NAME = 'queueRabbitMQ';
 
     /**
      * @var AMQPStreamConnection
@@ -28,6 +29,8 @@ class BaseConsumer implements ConsumerInterface
 
     public function listen($queueName, $callback)
     {
+        ob_start();
+
         /**
          * @param queue
          * @param passive

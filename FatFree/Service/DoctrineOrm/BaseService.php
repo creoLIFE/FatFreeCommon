@@ -23,6 +23,18 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
+     * Method will get all results from DB by given Entity definition
+     * @param BaseEntity $entity
+     * @return mixed
+     */
+    public function getAll(BaseEntity $entity)
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findAll($entity);
+    }
+
+    /**
      * Method will insert entity to DB
      * @param BaseEntity $entity
      * @param array $values
@@ -44,7 +56,6 @@ abstract class BaseService extends DoctrineOrm
             $metadata->setIdGenerator(new AssignedGenerator);
             $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         }
-
         $this->entityManager
             ->persist($entity);
 
