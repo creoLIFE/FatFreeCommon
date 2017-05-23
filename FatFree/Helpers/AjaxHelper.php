@@ -18,12 +18,9 @@ class AjaxHelper
     {
         return (boolean)(
 
-        \F3::get('ENV') !== 'production' ? true :
-
-            isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
-            && $_SERVER['HTTP_HOST'] == \F3::get('creoLAB.domain')
-                ? true : false
+        isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')
+            ? true : false
 
         );
     }
