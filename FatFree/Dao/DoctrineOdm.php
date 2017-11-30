@@ -21,8 +21,8 @@ class DoctrineOdm
     public $documentManager;
 
     /**
-     * DoctrineOrm constructor.
-     * @param OrmConfig $ormConfig
+     * DoctrineOdm constructor.
+     * @param OdmConfig $odmConfig
      */
     public function __construct(OdmConfig $odmConfig)
     {
