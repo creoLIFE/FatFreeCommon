@@ -18,5 +18,6 @@ abstract class BaseEntity extends ModelMethodsHelper
 	use IdentifierTrait;
 	use MapperTrait;
 	use SafeDeleteTrait;
+	use LanguageTrait;
 	use DatetimeTrait;
 }

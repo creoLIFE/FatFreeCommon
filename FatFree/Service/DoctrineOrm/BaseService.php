@@ -102,6 +102,38 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
+     * Method will insert entity to DB when same entity doesnt exist and return inserted entity.
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param bool $flush
+     * @return BaseEntity|null|object|void
+     */
+    public function insertIfNotExistAndGet(BaseEntity $entity, array $values = [], $flush = true)
+    {
+        $found = $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->find($entity);
+
+        return $found ? $found : self::insert($entity, $values, $flush);
+    }
+
+    /**
+     * Method will insert entity to DB when same entity doesnt exist and return inserted entity.
+     * @param BaseEntity $entity
+     * @param array $values
+     * @param bool $flush
+     * @return BaseEntity|null|object|void
+     */
+    public function insertIfNotExistByKeysAndGet(BaseEntity $entity, array $values = [], array $keys, $flush = true)
+    {
+        $found = $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+
+        return $found ? $found : self::insert($entity, $values, $flush);
+    }
+
+    /**
      * Method will insert entity to DB when same entity doesnt exist. Existing entity will be checked by given keys
      * @param BaseEntity $entity
      * @param array $values

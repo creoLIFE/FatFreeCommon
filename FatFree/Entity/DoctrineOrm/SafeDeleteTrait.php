@@ -10,21 +10,22 @@ trait SafeDeleteTrait
      * @var boolean
      * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $safeDelete = 0;
+    protected $_safeDelete = 0;
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSafeDelete()
     {
-        return $this->safeDelete;
+        return $this->_safeDelete;
     }
 
     /**
-     * @param boolean $safeDelete
+     * @param bool $safeDelete
      */
     public function setSafeDelete($safeDelete)
     {
-        $this->safeDelete = $safeDelete;
+        $this->_safeDelete = $safeDelete;
     }
+
 }
