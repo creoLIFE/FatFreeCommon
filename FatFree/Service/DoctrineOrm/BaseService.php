@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FatFree\Service\DoctrineOrm;
 
@@ -14,9 +14,9 @@ abstract class BaseService extends DoctrineOrm
     /**
      * Method will get results from DB by given Entity definition
      * @param BaseEntity $entity
-     * @return mixed
+     * @return BaseEntity|null
      */
-    public function get(BaseEntity $entity)
+    public function get(BaseEntity $entity): ?BaseEntity
     {
         return $this->entityManager
             ->getRepository($entity->getClassName())
@@ -26,13 +26,39 @@ abstract class BaseService extends DoctrineOrm
     /**
      * Method will get all results from DB by given Entity definition
      * @param BaseEntity $entity
-     * @return mixed
+     * @return BaseEntity|null
      */
-    public function getAll(BaseEntity $entity)
+    public function getAll(BaseEntity $entity): ?BaseEntity
     {
         return $this->entityManager
             ->getRepository($entity->getClassName())
             ->findAll($entity);
+    }
+
+    /**
+     * Method will get entity by given keys
+     * @param BaseEntity $entity
+     * @param array $keys
+     * @return BaseEntity|null
+     */
+    public function getOneByKeys(BaseEntity $entity, array $keys): ?BaseEntity
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+    }
+
+    /**
+     * Method will get entities by given keys
+     * @param BaseEntity $entity
+     * @param array $keys
+     * @return array
+     */
+    public function getAllByKeys(BaseEntity $entity, array $keys): array
+    {
+        return $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findByKeys($entity, $keys);
     }
 
     /**
