@@ -8,7 +8,7 @@ trait IdentifierTrait
     /**
      * @var integer
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", length=50, nullable=false, unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;

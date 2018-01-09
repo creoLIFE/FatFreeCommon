@@ -7,6 +7,7 @@ use FatFree\Entity\DoctrineOrm\BaseEntity;
 use FatFree\Service\ServiceException;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 abstract class BaseService extends DoctrineOrm
 {
@@ -99,38 +100,6 @@ abstract class BaseService extends DoctrineOrm
         }
 
         return $entity;
-    }
-
-    /**
-     * Method will insert entity to DB when same entity doesnt exist and return inserted entity.
-     * @param BaseEntity $entity
-     * @param array $values
-     * @param bool $flush
-     * @return BaseEntity|null|object|void
-     */
-    public function insertIfNotExistAndGet(BaseEntity $entity, array $values = [], $flush = true)
-    {
-        $found = $this->entityManager
-            ->getRepository($entity->getClassName())
-            ->find($entity);
-
-        return $found ? $found : self::insert($entity, $values, $flush);
-    }
-
-    /**
-     * Method will insert entity to DB when same entity doesnt exist and return inserted entity.
-     * @param BaseEntity $entity
-     * @param array $values
-     * @param bool $flush
-     * @return BaseEntity|null|object|void
-     */
-    public function insertIfNotExistByKeysAndGet(BaseEntity $entity, array $values = [], array $keys, $flush = true)
-    {
-        $found = $this->entityManager
-            ->getRepository($entity->getClassName())
-            ->findOneByKeys($entity, $keys);
-
-        return $found ? $found : self::insert($entity, $values, $flush);
     }
 
     /**
@@ -265,6 +234,23 @@ abstract class BaseService extends DoctrineOrm
     }
 
     /**
+     * Method will check if entity exists in DB by given keys
+     * @param BaseEntity $entity
+     * @param array $keys
+     * @return BaseEntity|void
+     * @throws ServiceException
+     */
+    public function existByKeys(BaseEntity $entity, array $keys)
+    {
+        $foundEntity = $this->entityManager
+            ->getRepository($entity->getClassName())
+            ->findOneByKeys($entity, $keys);
+
+        return $foundEntity;
+    }
+
+
+    /**
      * Method will delete entity to DB
      * @param BaseEntity $entity
      * @param boolean $flush
@@ -346,6 +332,13 @@ abstract class BaseService extends DoctrineOrm
     public function flush()
     {
         $this->entityManager->flush();
+        /*
+        try {
+        }
+        catch (UniqueConstraintViolationException $e) {
+            //Skipping duplicates
+        }
+        */
     }
 
     /**
