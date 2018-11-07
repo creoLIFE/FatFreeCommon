@@ -28,11 +28,11 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "4.8.*"
+        "phpunit/phpunit": "6.4.*"
     },
     "require": {
         "php": ">=5.4.0",
         "bcosca/fatfree": "@stable",
-        "jms/serializer": "1.1.*"
+        "jms/serializer": "1.9.2"
     }
 }
