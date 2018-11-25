@@ -26,11 +26,10 @@ class Url
 
     /**
      * Class constructor
-     * @param [\Base] - instance of $f3
      */
-    public function __construct(\Base $f3)
+    public function __construct()
     {
-        $this->f3 = $f3;
+        $this->f3 = \Base::instance();
     }
 
     /**
