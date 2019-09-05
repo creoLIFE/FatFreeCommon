@@ -107,6 +107,6 @@ class ModelMethodsHelper implements \JsonSerializable
      */
     private function fixJsonStructure($json)
     {
-        return str_replace(array('\\\\','}"}','\"', ':"{', '}",'), array('\\','}}','"', ':{', '},'), $json);
+        return str_replace(array(',"{','["{','}"]','\\\\','}"}','\"', ':"{', '}",'), array(',{','[{','}]','\\','}}','"', ':{', '},'), $json);
     }
 }
