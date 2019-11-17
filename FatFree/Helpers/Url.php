@@ -41,7 +41,7 @@ class Url
      * @return mixed|string
      * @throws \Exception
      */
-    public function get($routeName, $params = array(), $useGetParams = false, $cleanString = true)
+    public function get($routeName, $params = array(), $useGetParams = false, $cleanString = true, $getParams = array())
     {
         $hive = $this->f3->hive();
         $u = $hive["ALIASES"][$routeName];
@@ -56,9 +56,13 @@ class Url
         }
         $u = $u && !strpos($u, "@") ? $u : '#';
 
+        if (!empty($getParams)) {
+            $u = $u . sprintf('?%s', http_build_query($getParams));
+        }
+
         return $useGetParams ? sprintf('%s%s',
             $u,
-            self::getUrlParams($cleanString)
+            self::getUrlParams($u)
         ) : $u;
     }
 
@@ -129,13 +133,11 @@ class Url
     }
 
     /**
-     * Method will get URL params and clean them from une.
-     * @param [string] $str - string to convert
-     * @param [array] $replace - replacements
-     * @param [string] $delimeter
+     * Method will get GET params and attach them to destination url
+     * @param [string] $url - url to check for ?
      * @return [string]
      */
-    private function getUrlParams()
+    private function getUrlParams($url)
     {
         if (isset(parse_url($_SERVER['REQUEST_URI'])['query'])) {
             $query = parse_url($_SERVER['REQUEST_URI'])['query'];
@@ -145,7 +147,11 @@ class Url
                 $elements[htmlspecialchars($key)] = htmlspecialchars($val);
             }
 
-            return sprintf('?%s', http_build_query($elements));
+            return sprintf(
+                '%s%s',
+                strpos($query, '?') || strpos($url, '?') ? '&' : '?',
+                http_build_query($elements)
+            );
         } else {
             return null;
         }
