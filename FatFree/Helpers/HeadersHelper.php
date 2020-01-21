@@ -21,6 +21,19 @@ class HeadersHelper
     /**
      * @return void
      */
+    public static function addAccessControlHeaders(string $origin)
+    {
+        header(
+            sprintf("Access-Control-Allow-Origin: %s", $origin)
+        );
+        if ($origin !== '*') {
+            header('Vary: Origin');
+        }
+    }
+
+    /**
+     * @return void
+     */
     public static function addCorsHeaders()
     {
         header('Access-Control-Allow-Origin: *');
