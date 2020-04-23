@@ -13,19 +13,28 @@ use FatFree\Helpers\ModelMethodsHelper;
 class RestHelper extends ModelMethodsHelper
 {
     /*
-     * @const string ERR_500 - 500 status - server error durring response
+     * @const string STATUS_500 - 500 status - server error durring response
      */
-    const ERR_500 = 'Response error';
+    const STATUS_500 = 500;
+    const STATUS_500_MSG = 'Response error';
 
     /*
-     * @const string ERR_204 - 204 status - no data
+     * @const string STATUS_500 - 204 status - no data
      */
-    const ERR_204 = 'No data';
+    const STATUS_204 = 204;
+    const STATUS_204_MSG = 'No data';
+
+
+    /*
+     * @const string STATUS_200 - 200 status - no data
+     */
+    const STATUS_200 = 200;
+    const STATUS_200_MSG = 'OK';
 
     /*
      * @var integer $status - response status
      */
-    protected $status = 204;
+    protected $status = self::STATUS_204;
 
     /*
      * @var integer $sId - Session ID
@@ -112,8 +121,8 @@ class RestHelper extends ModelMethodsHelper
      */
     public function __construct()
     {
-        $this->setStatus($this->status);
-        $this->setMsg(self::ERR_204);
+        $this->setStatus(self::STATUS_204);
+        $this->setMsg(self::STATUS_204_MSG);
         $this->setData(null);
     }
 }
