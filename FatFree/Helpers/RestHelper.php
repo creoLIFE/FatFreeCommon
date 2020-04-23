@@ -25,7 +25,7 @@ class RestHelper extends ModelMethodsHelper
     /*
      * @var integer $status - response status
      */
-    protected $status = 500;
+    protected $status = 204;
 
     /*
      * @var integer $sId - Session ID
@@ -112,8 +112,8 @@ class RestHelper extends ModelMethodsHelper
      */
     public function __construct()
     {
-        $this->setStatus(500);
-        $this->setMsg(self::ERR_500);
+        $this->setStatus($this->status);
+        $this->setMsg(self::ERR_204);
         $this->setData(null);
     }
 }
